@@ -1,0 +1,77 @@
+{
+  "project_info": {
+    "project_number": "187102596464",
+    "firebase_url": "https://quizpro-f5bf4-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "quizpro-f5bf4",
+    "storage_bucket": "quizpro-f5bf4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:187102596464:android:c64dac2f3717bf299dd3b5",
+        "android_client_info": {
+          "package_name": "com.example.quizpro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "187102596464-g0ejbvok3vtgtnlvcdnfilorhusesuae.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCQH5PB5fiYxAFG_ovkUjit01IDmAwz1U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "187102596464-g0ejbvok3vtgtnlvcdnfilorhusesuae.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:187102596464:android:6c251194a1e941b49dd3b5",
+        "android_client_info": {
+          "package_name": "com.example.quizpro_admin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "187102596464-5tpkdbeibgiqs1vs6eoja14glsefhlcj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.quizpro_admin",
+            "certificate_hash": "2b7de5ff3f70eb063d44bb6285f85c30a3b6854c"
+          }
+        },
+        {
+          "client_id": "187102596464-g0ejbvok3vtgtnlvcdnfilorhusesuae.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCQH5PB5fiYxAFG_ovkUjit01IDmAwz1U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "187102596464-g0ejbvok3vtgtnlvcdnfilorhusesuae.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
