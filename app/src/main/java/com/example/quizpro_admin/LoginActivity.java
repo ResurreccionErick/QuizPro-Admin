@@ -39,54 +39,56 @@ public class LoginActivity extends AppCompatActivity {
         loadingDialog.setCancelable(true);
         loadingDialog.getWindow().setBackgroundDrawableResource(R.drawable.progress_background);
         loadingDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
-        loadingDialog.show();
+
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                startActivity(new Intent(getApplicationContext(),MainActivity.class));
-//                String email = txtEmail.getText().toString().trim();
-//                String password = txtPassword.getText().toString().trim();
-//
-//                if(email.isEmpty()) {
-//                    txtEmail.setError("Please Enter Your Email Address");
-//                    txtEmail.requestFocus();
-//                    return;
-//                }
-//                 if(password.isEmpty()) {
-//                     txtPassword.setError("Please Enter Your Password");
-//                     txtPassword.requestFocus();
-//                     return;
-//                } if(password.length() < 6){
-//                    txtPassword.setError("Please Enter 6 Digits Password");
-//                    txtPassword.requestFocus();
-//                    return;
-//                } if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-//                    txtEmail.setError("Please Enter Valid Email Address");
-//                    txtEmail.requestFocus();
-//                    return;
-//                }else{
-//                    firebaseLogin(); //calling the login method
-//                }
+               //startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                String email = txtEmail.getText().toString().trim();
+                String password = txtPassword.getText().toString().trim();
+
+                if(email.isEmpty()) {
+                    txtEmail.setError("Please Enter Your Email Address");
+                    txtEmail.requestFocus();
+                    return;
+                }
+                 if(password.isEmpty()) {
+                     txtPassword.setError("Please Enter Your Password");
+                     txtPassword.requestFocus();
+                     return;
+                } if(password.length() < 6){
+                    txtPassword.setError("Please Enter 6 Digits Password");
+                    txtPassword.requestFocus();
+                    return;
+                } if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+                    txtEmail.setError("Please Enter Valid Email Address");
+                    txtEmail.requestFocus();
+                    return;
+                }
+                    firebaseLogin(); //calling the login method
+
             }
         });
     }
 
     private void firebaseLogin() { //method that check and login the admin
+        loadingDialog.show();
         mAuth.signInWithEmailAndPassword(txtEmail.getText().toString(), txtPassword.getText().toString())
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
-
+                            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                            loadingDialog.dismiss();
                         } else {
                             // If sign in fails, display a message to the user.
                             Toast.makeText(getApplicationContext(), "User not found!", Toast.LENGTH_SHORT).show();
-
+                            loadingDialog.dismiss();
                         }
+
                     }
                 });
 
