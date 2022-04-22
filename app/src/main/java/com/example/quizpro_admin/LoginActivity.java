@@ -45,29 +45,29 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-               //startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                String email = txtEmail.getText().toString().trim();
-                String password = txtPassword.getText().toString().trim();
-
-                if(email.isEmpty()) {
-                    txtEmail.setError("Please Enter Your Email Address");
-                    txtEmail.requestFocus();
-                    return;
-                }
-                 if(password.isEmpty()) {
-                     txtPassword.setError("Please Enter Your Password");
-                     txtPassword.requestFocus();
-                     return;
-                } if(password.length() < 6){
-                    txtPassword.setError("Please Enter 6 Digits Password");
-                    txtPassword.requestFocus();
-                    return;
-                } if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-                    txtEmail.setError("Please Enter Valid Email Address");
-                    txtEmail.requestFocus();
-                    return;
-                }
-                    firebaseLogin(); //calling the login method
+               startActivity(new Intent(getApplicationContext(),MainActivity.class));
+//                String email = txtEmail.getText().toString().trim();
+//                String password = txtPassword.getText().toString().trim();
+//
+//                if(email.isEmpty()) {
+//                    txtEmail.setError("Please Enter Your Email Address");
+//                    txtEmail.requestFocus();
+//                    return;
+//                }
+//                 if(password.isEmpty()) {
+//                     txtPassword.setError("Please Enter Your Password");
+//                     txtPassword.requestFocus();
+//                     return;
+//                } if(password.length() < 6){
+//                    txtPassword.setError("Please Enter 6 Digits Password");
+//                    txtPassword.requestFocus();
+//                    return;
+//                } if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+//                    txtEmail.setError("Please Enter Valid Email Address");
+//                    txtEmail.requestFocus();
+//                    return;
+//                }
+//                    firebaseLogin(); //calling the login method
 
             }
         });

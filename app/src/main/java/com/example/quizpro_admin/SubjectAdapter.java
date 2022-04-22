@@ -16,9 +16,9 @@ import java.util.List;
 
 public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.ViewHolder> {
 
-    private List<String> subjList;
+    private List<SubjectModel> subjList;
 
-    public SubjectAdapter(List<String> subjList) {
+    public SubjectAdapter(List<SubjectModel> subjList) {
         this.subjList = subjList;
     }
 
@@ -32,7 +32,7 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull SubjectAdapter.ViewHolder viewHolder, int position) {
-        String title = subjList.get(position);
+        String title = subjList.get(position).getName(); //getting the name of subj in fire base.
 
         viewHolder.setData(title);
     }
