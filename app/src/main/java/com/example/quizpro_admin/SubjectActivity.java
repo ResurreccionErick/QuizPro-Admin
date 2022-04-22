@@ -33,8 +33,6 @@ public class SubjectActivity extends AppCompatActivity {
     public static List<SubjectModel> catList = new ArrayList<>();
     private FirebaseFirestore firestore;
     private Dialog loadingDialog,addSubjDialog;
-//    private EditText dialogSubjName;
-//    private Button btnAddSubjDialog;
     private SubjectAdapter adapter;
 
 
@@ -153,14 +151,14 @@ public class SubjectActivity extends AppCompatActivity {
         loadingDialog.show();
 
         final Map<String,Object> catData = new ArrayMap<>();
-        catData.put("NAME",title);
-        catData.put("SETS",0);
+        catData.put("NAME",title); //subject name inserted
+        catData.put("SETS",0); //sets starts 0
         //catData.put("COUNTER","1");
 
-        final String doc_id = firestore.collection("QUIZ").document().getId();
+        final String doc_id = firestore.collection("QUIZ").document().getId(); //create an id
 
         firestore.collection("QUIZ").document(doc_id)
-                .set(catData)
+                .set(catData)   //inserted the arrayMap catData into its ID in firestore
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
