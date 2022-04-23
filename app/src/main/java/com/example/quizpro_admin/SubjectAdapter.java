@@ -62,7 +62,7 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.ViewHold
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView subjName;
-        private ImageView btnDelete;
+        private ImageView imgDelete,imgEdit;
         private EditText txtEditSubjDialog;
         private Button btnEditSubjDialog;
 
@@ -70,7 +70,8 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.ViewHold
             super(itemView);
 
             subjName = itemView.findViewById(R.id.tvSubjName); //palettes from add_subject_dialog
-            btnDelete = itemView.findViewById(R.id.btnSubjDelete);
+            imgDelete = itemView.findViewById(R.id.btnSubjDelete);
+            imgEdit = itemView.findViewById(R.id.btnSubjEdit);
 
             loadingDialog = new Dialog(itemView.getContext()); //loading dialog
             loadingDialog.setContentView(R.layout.loading_progress_bar);
@@ -91,13 +92,21 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.ViewHold
         public void setData(String title,int position,SubjectAdapter adapter) {
             subjName.setText(title);
 
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+//            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+//                @Override
+//                public boolean onLongClick(View view) {
+//                    txtEditSubjDialog.setText(subjList.get(position).getName()); //passing the subj name in the EditText of edit_subject_bar
+//                    editDialog.show();
+//
+//                    return false;
+//                }
+//            });
+
+            imgEdit.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public boolean onLongClick(View view) {
+                public void onClick(View view) {
                     txtEditSubjDialog.setText(subjList.get(position).getName()); //passing the subj name in the EditText of edit_subject_bar
                     editDialog.show();
-
-                    return false;
                 }
             });
 
@@ -113,7 +122,7 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.ViewHold
                 }
             });
 
-            btnDelete.setOnClickListener(new View.OnClickListener() {
+            imgDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
