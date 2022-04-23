@@ -30,7 +30,7 @@ public class SubjectActivity extends AppCompatActivity {
 
     private RecyclerView subRecyclerView;
     private Button btnAddNewSubj;
-    public static List<SubjectModel> catList = new ArrayList<>();
+    public static List<SubjectModel> subjList = new ArrayList<>();
     private FirebaseFirestore firestore;
     private Dialog loadingDialog,addSubjDialog;
     private SubjectAdapter adapter;
@@ -97,7 +97,7 @@ public class SubjectActivity extends AppCompatActivity {
     {
         loadingDialog.show();
 
-        catList.clear();
+        subjList.clear();
 
         firestore.collection("QUIZ").document("Categories")
                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -117,10 +117,10 @@ public class SubjectActivity extends AppCompatActivity {
                             String subjName = doc.getString("CAT" + String.valueOf(i) + "_NAME");
                             String subjID = doc.getString("CAT" + String.valueOf(i) + "_ID");
 
-                            catList.add(new SubjectModel(subjID,subjName,"0"));
+                            subjList.add(new SubjectModel(subjID,subjName,"0"));
                         }
 
-                        adapter = new SubjectAdapter(catList);
+                        adapter = new SubjectAdapter(subjList);
                         subRecyclerView.setAdapter(adapter);
 
                     }
@@ -151,7 +151,7 @@ public class SubjectActivity extends AppCompatActivity {
         final Map<String,Object> catData = new ArrayMap<>();
         catData.put("NAME",title); //subject name inserted
         catData.put("SETS",0); //sets starts 0
-        //catData.put("COUNTER","1");
+        catData.put("COUNTER","1");
 
         final String doc_id = firestore.collection("QUIZ").document().getId(); //create an id
 
@@ -162,9 +162,9 @@ public class SubjectActivity extends AppCompatActivity {
                     public void onSuccess(Void aVoid) {
 
                         Map<String,Object> catDoc = new ArrayMap<>();
-                        catDoc.put("CAT" + String.valueOf(catList.size() + 1) + "_NAME",title);
-                        catDoc.put("CAT" + String.valueOf(catList.size() + 1) + "_ID",doc_id);
-                        catDoc.put("COUNT", catList.size() + 1);
+                        catDoc.put("CAT" + String.valueOf(subjList.size() + 1) + "_NAME",title);
+                        catDoc.put("CAT" + String.valueOf(subjList.size() + 1) + "_ID",doc_id);
+                        catDoc.put("COUNT", subjList.size() + 1);
 
                         firestore.collection("QUIZ").document("Categories")
                                 .update(catDoc)
@@ -174,9 +174,9 @@ public class SubjectActivity extends AppCompatActivity {
 
                                         Toast.makeText(getApplicationContext(),"Category added successfully",Toast.LENGTH_SHORT).show();
 
-                                        catList.add(new SubjectModel(doc_id,title,"0"));
+                                        subjList.add(new SubjectModel(doc_id,title,"0"));
 
-                                        adapter.notifyItemInserted(catList.size());
+                                        adapter.notifyItemInserted(subjList.size());
 
                                         loadingDialog.dismiss();
 

@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.util.ArrayMap;
 import android.view.LayoutInflater;
@@ -102,6 +103,14 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.ViewHold
 //                }
 //            });
 
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(itemView.getContext(),SetsActivity.class);
+                    itemView.getContext().startActivity(intent);
+                }
+            });
+
             imgEdit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -174,7 +183,7 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.ViewHold
                     public void onSuccess(Void unused) {
                         Toast.makeText(context, "Subject Deleted", Toast.LENGTH_SHORT).show();
 
-                        SubjectActivity.catList.remove(id); //remove in catList from subjectActivity
+                        SubjectActivity.subjList.remove(id); //remove in catList from subjectActivity
 
                         adapter.notifyDataSetChanged();
 
@@ -213,7 +222,7 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.ViewHold
                     @Override
                     public void onSuccess(Void unused) {
                         Toast.makeText(context, "Updated Successfully", Toast.LENGTH_SHORT).show();
-                        SubjectActivity.catList.get(position).setName(subjNewName); //update also in subject activity catList
+                        SubjectActivity.subjList.get(position).setName(subjNewName); //update also in subject activity catList
 
                         adapter.notifyDataSetChanged();
 
