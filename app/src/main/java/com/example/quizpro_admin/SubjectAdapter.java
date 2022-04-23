@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -32,7 +33,7 @@ import java.util.Map;
 public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.ViewHolder> {
 
     private List<SubjectModel> subjList;
-    private Dialog loadingDialog;
+    private Dialog loadingDialog,editDialog;
 
     public SubjectAdapter(List<SubjectModel> subjList) {
         this.subjList = subjList;
@@ -62,11 +63,13 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView subjName;
         private ImageView btnDelete;
+        private EditText txtEditSubjDialog;
+        private Button btnEditSubjDialog;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            subjName = itemView.findViewById(R.id.tvSubjName); //palettes from subj_item_list
+            subjName = itemView.findViewById(R.id.tvSubjName); //palettes from add_subject_dialog
             btnDelete = itemView.findViewById(R.id.btnSubjDelete);
 
             loadingDialog = new Dialog(itemView.getContext()); //loading dialog
@@ -74,10 +77,41 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.ViewHold
             loadingDialog.setCancelable(false);
             loadingDialog.getWindow().setBackgroundDrawableResource(R.drawable.progress_background);
             loadingDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+
+            editDialog = new Dialog(itemView.getContext()); //loading dialog
+            editDialog.setContentView(R.layout.edit_subject_bar);
+            editDialog.setCancelable(true);
+            editDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+
+            txtEditSubjDialog = editDialog.findViewById(R.id.txtEditSubjNameDialog); //palettes from edit_subject_bar
+            btnEditSubjDialog = editDialog.findViewById(R.id.btnEditSubjDialog);
+
         }
 
         public void setData(String title,int position,SubjectAdapter adapter) {
             subjName.setText(title);
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    txtEditSubjDialog.setText(subjList.get(position).getName()); //passing the subj name in the EditText of edit_subject_bar
+                    editDialog.show();
+
+                    return false;
+                }
+            });
+
+            btnEditSubjDialog.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(txtEditSubjDialog.getText().toString().isEmpty()){
+                        txtEditSubjDialog.setError("Enter Subject Name");
+                        txtEditSubjDialog.requestFocus();
+                        return;
+                    }
+                    updateSubject(txtEditSubjDialog.getText().toString(),position,itemView.getContext(),adapter);
+                }
+            });
 
             btnDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -107,6 +141,7 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.ViewHold
             });
         }
     }
+
 
     private void deleteSubject(final int id, Context context,SubjectAdapter adapter) {
         loadingDialog.show();
@@ -145,7 +180,52 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.ViewHold
                 loadingDialog.dismiss();
             }
         });
+    }
 
+    private void updateSubject(String subjNewName,int position,Context context,SubjectAdapter adapter) {
+        editDialog.dismiss();
+
+        loadingDialog.show();
+
+        Map<String,Object> subjData = new ArrayMap<>();
+        subjData.put("NAME", subjNewName); //change the name of document in firebase
+
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        firestore.collection("QUIZ").document(subjList.get(position).getId())
+        .update(subjData)
+        .addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Map<String,Object> subjDoc = new ArrayMap<>();
+                subjDoc.put("CAT" + String.valueOf(position + 1) + "_NAME",subjNewName); //putting the data into arrayMap
+
+                firestore.collection("QUIZ").document("Categories") //updating the data in firestore
+                        .update(subjDoc).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(context, "Updated Successfully", Toast.LENGTH_SHORT).show();
+                        SubjectActivity.catList.get(position).setName(subjNewName); //update also in subject activity catList
+
+                        adapter.notifyDataSetChanged();
+
+                        loadingDialog.dismiss();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(context,e.getMessage(),Toast.LENGTH_SHORT).show();
+                        loadingDialog.dismiss();
+                    }
+                });
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(context,e.getMessage(),Toast.LENGTH_SHORT).show();
+                loadingDialog.dismiss();
+            }
+        });
 
     }
 }

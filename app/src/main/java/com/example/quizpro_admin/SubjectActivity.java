@@ -85,8 +85,6 @@ public class SubjectActivity extends AppCompatActivity {
             }
         });
 
-
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         subRecyclerView.setLayoutManager(layoutManager);

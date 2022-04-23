@@ -7,14 +7,14 @@
     android:padding="15dp">
 
     <EditText
-        android:id="@+id/txtAddSubjName"
+        android:id="@+id/txtEditSubjNameDialog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:ems="10"
-        android:hint="Add Subject"
+        android:hint="Edit Subject"
         android:padding="10dp"
         android:background="@drawable/text_design_black"
         android:inputType="textPersonName"
@@ -23,8 +23,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btnAddSubjDialog"
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnEditSubjDialog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -32,11 +32,12 @@
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="32dp"
         android:background="@drawable/round_corner"
-        android:text="ADD"
+        android:backgroundTint="@color/primary"
+        android:text="Update"
         android:textSize="16dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/txtAddSubjName"
-        app:layout_constraintStart_toStartOf="@+id/txtAddSubjName"
-        app:layout_constraintTop_toBottomOf="@+id/txtAddSubjName" />
+        app:layout_constraintEnd_toEndOf="@+id/txtEditSubjNameDialog"
+        app:layout_constraintStart_toStartOf="@+id/txtEditSubjNameDialog"
+        app:layout_constraintTop_toBottomOf="@+id/txtEditSubjNameDialog" />
 </androidx.constraintlayout.widget.ConstraintLayout>
