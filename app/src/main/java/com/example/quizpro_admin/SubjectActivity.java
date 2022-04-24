@@ -31,6 +31,7 @@ public class SubjectActivity extends AppCompatActivity {
     private RecyclerView subRecyclerView;
     private Button btnAddNewSubj;
     public static List<SubjectModel> subjList = new ArrayList<>();
+    public static int selected_subj_index = 0;
     private FirebaseFirestore firestore;
     private Dialog loadingDialog,addSubjDialog;
     private SubjectAdapter adapter;
@@ -117,7 +118,7 @@ public class SubjectActivity extends AppCompatActivity {
                             String subjName = doc.getString("CAT" + String.valueOf(i) + "_NAME");
                             String subjID = doc.getString("CAT" + String.valueOf(i) + "_ID");
 
-                            subjList.add(new SubjectModel(subjID,subjName,"0"));
+                            subjList.add(new SubjectModel(subjID,subjName,"0","1")); //going to subjectModel
                         }
 
                         adapter = new SubjectAdapter(subjList);
@@ -174,7 +175,7 @@ public class SubjectActivity extends AppCompatActivity {
 
                                         Toast.makeText(getApplicationContext(),"Category added successfully",Toast.LENGTH_SHORT).show();
 
-                                        subjList.add(new SubjectModel(doc_id,title,"0"));
+                                        subjList.add(new SubjectModel(doc_id,title,"0","1"));
 
                                         adapter.notifyItemInserted(subjList.size());
 

@@ -106,6 +106,7 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.ViewHold
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    SubjectActivity.selected_subj_index = position; //what was the user clicked
                     Intent intent = new Intent(itemView.getContext(),SetsActivity.class);
                     itemView.getContext().startActivity(intent);
                 }

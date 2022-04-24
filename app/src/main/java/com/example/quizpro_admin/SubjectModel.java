@@ -1,12 +1,13 @@
 package com.example.quizpro_admin;
 
 public class SubjectModel {
-    private String id,name,noOfSets;
+    private String id,name,noOfSets,setCounter;
 
-    public SubjectModel(String id, String name, String noOfSets) {
+    public SubjectModel(String id, String name, String noOfSets, String setCounter) {
         this.id = id;
         this.name = name;
         this.noOfSets = noOfSets;
+        this.setCounter = setCounter;
     }
 
     public String getId() {
@@ -31,5 +32,13 @@ public class SubjectModel {
 
     public void setNoOfSets(String noOfSets) {
         this.noOfSets = noOfSets;
+    }
+
+    public String getSetCounter() {
+        return setCounter;
+    }
+
+    public void setSetCounter(String setCounter) {
+        this.setCounter = setCounter;
     }
 }
