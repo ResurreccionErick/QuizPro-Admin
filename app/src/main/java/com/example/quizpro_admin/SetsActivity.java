@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.util.ArrayMap;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -23,6 +24,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class SetsActivity extends AppCompatActivity {
 
@@ -51,12 +53,14 @@ public class SetsActivity extends AppCompatActivity {
 
         btnAddNewSets.setText("ADD NEW SET");
 
+
         btnAddNewSets.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                addNewSet();
             }
         });
+
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -64,6 +68,7 @@ public class SetsActivity extends AppCompatActivity {
 
         loadSets();
     }
+
 
     private void loadSets() {
         //fetch sets from firebase firestore
@@ -97,9 +102,60 @@ public class SetsActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
                 loadingDialog.dismiss();
 
-
-
             }
         });
+    }
+
+    private void addNewSet() {
+        loadingDialog.show();
+
+        String current_subj_id = subjList.get(selected_subj_index).getId();
+        final String current_counter = subjList.get(selected_subj_index).getSetCounter();
+
+        Map<String,Object> qData = new ArrayMap<>();
+        qData.put("COUNT",0);
+
+        firestore.collection("QUIZ").document(current_subj_id).collection(current_counter).document("QUESTIONS_LIST") //go to the QUESTIONS_LIST in firestore
+        .set(qData).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Map<String,Object> subjDoc = new ArrayMap<>();
+                subjDoc.put("COUNTER", String.valueOf(Integer.valueOf(current_counter) + 1));
+                subjDoc.put("SET" + String.valueOf(setsId.size() + 1 ) + "ID", current_counter);
+                //subjDoc.put("SET", String.valueOf(setsId.size() + 1) + "ID" , current_counter);
+                subjDoc.put("SETS",setsId.size()+1);
+
+                firestore.collection("QUIZ").document(current_subj_id) //update in firestore
+                        .update(subjDoc).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(getApplicationContext(), "Successfully Added New Set", Toast.LENGTH_SHORT).show();
+                        setsId.add(current_counter);
+                        subjList.get(selected_subj_index).setNoOfSets(String.valueOf(setsId.size())); //update the local number of set
+
+                        subjList.get(selected_subj_index).setSetCounter(String.valueOf(Integer.valueOf(current_counter) + 1)); //update the local counter
+
+                        adapter.notifyItemInserted(setsId.size());
+
+                        loadingDialog.dismiss();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+                        loadingDialog.dismiss();
+                    }
+                });
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+                loadingDialog.dismiss();
+            }
+        });
+
+
+
     }
 }

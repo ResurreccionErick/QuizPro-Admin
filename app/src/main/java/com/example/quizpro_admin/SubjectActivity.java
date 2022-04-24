@@ -173,7 +173,7 @@ public class SubjectActivity extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(Void aVoid) {
 
-                                        Toast.makeText(getApplicationContext(),"Category added successfully",Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(),"Subject added successfully",Toast.LENGTH_SHORT).show();
 
                                         subjList.add(new SubjectModel(doc_id,title,"0","1"));
 
