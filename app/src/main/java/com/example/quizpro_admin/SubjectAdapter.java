@@ -34,10 +34,7 @@ import java.util.Map;
 public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.ViewHolder> {
 
     private List<SubjectModel> subjList;
-    private TextView subjName;
-    private ImageView btnDelete;
-    private EditText txtEditSubjDialog;
-    private Button btnEditSubjDialog;
+
     private Dialog loadingDialog,editDialog;
 
     public SubjectAdapter(List<SubjectModel> subjList) {
@@ -97,15 +94,6 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.ViewHold
         public void setData(String title,final int position,SubjectAdapter adapter) {
             subjName.setText(title);
 
-//            itemView.setOnLongClickListener(new View.OnLongClickListener() {
-//                @Override
-//                public boolean onLongClick(View view) {
-//                    txtEditSubjDialog.setText(subjList.get(position).getName()); //passing the subj name in the EditText of edit_subject_bar
-//                    editDialog.show();
-//
-//                    return false;
-//                }
-//            });
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -5,6 +5,7 @@ import static com.example.quizpro_admin.SubjectActivity.subjList;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -42,6 +43,7 @@ public class SetsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sets);
         setsView = findViewById(R.id.sets_subjRecyclerView);
         btnAddNewSets = findViewById(R.id.btnAddNewSets);
+
 
         firestore = FirebaseFirestore.getInstance();
 
